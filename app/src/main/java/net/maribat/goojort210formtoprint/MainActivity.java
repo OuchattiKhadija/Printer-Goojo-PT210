@@ -1,16 +1,11 @@
 package net.maribat.goojort210formtoprint;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,10 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.print.sdk.PrinterConstants;
 import com.android.print.sdk.PrinterInstance;
-import com.android.print.sdk.Table;
-import com.android.print.sdk.util.Utils;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,11 +27,12 @@ public class MainActivity extends AppCompatActivity {
     private Context mContext;
     BluetoothPrinterController bluetoothPrinterController;
 
-    Button print_btn,print_img;
+    Button print_btn, print_img;
     EditText editText1, editText2;
     Bitmap bitmap;
-    String formattedDate,formattedTime;
+    String formattedDate, formattedTime;
     private static OutputStream outputStream;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         editText2 = findViewById(R.id.edit_txt2);
 
 
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.logo);
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
 
         mContext = this;
         bluetoothPrinterController = new BluetoothPrinterController(this, this, mHandler);
@@ -72,16 +65,11 @@ public class MainActivity extends AppCompatActivity {
             mPrinter.setPrintModel(false, false,
                     true, false);
             printCompanyName(mPrinter);
-            printDate(mPrinter,formattedDate,formattedTime);
+            printDate(mPrinter, formattedDate, formattedTime);
             printIputs(mPrinter, client_ed, montant_ed);
             printThanks(mPrinter);
         });
 
-
-    }
-
-    private void printEntet(PrinterInstance mPrinter) {
-        printCompanyName(mPrinter);
 
     }
 
@@ -91,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Current time => " + c);
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-         formattedDate = df.format(c);
+        formattedDate = df.format(c);
     }
 
     private void getCurrentTime() {
@@ -146,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         mPrinter.setPrinter(PrinterConstants.Command.PRINT_AND_WAKE_PAPER_BY_LINE, 2);
     }*/
 
-    public static void printImage(PrinterInstance mPrinter,Bitmap btm) {
+    public static void printImage(PrinterInstance mPrinter, Bitmap btm) {
         mPrinter.init();
         // mPrinter.setFont(0, 0, 0, 0);
         mPrinter.setPrinter(PrinterConstants.Command.ALIGN, PrinterConstants.Command.ALIGN_LEFT);
@@ -158,43 +146,45 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    public static void printIputs(PrinterInstance mPrinter,String client, String montant) {
+
+    public static void printIputs(PrinterInstance mPrinter, String client, String montant) {
         mPrinter.init();
 
-        mPrinter.printText("\nClient  :  "+ client + "\n\n" );
-        mPrinter.printText("Montant :  "+ montant + "\n" );
+        mPrinter.printText("\nClient  :  " + client + "\n\n");
+        mPrinter.printText("Montant :  " + montant + "\n");
         mPrinter.printText("--------------------------------\n");
-       // mPrinter.setPrinter(PrinterConstants.Command.PRINT_AND_WAKE_PAPER_BY_LINE, 2);
+        // mPrinter.setPrinter(PrinterConstants.Command.PRINT_AND_WAKE_PAPER_BY_LINE, 2);
         //
     }
 
     public static void printCompanyName(PrinterInstance mPrinter) {
         mPrinter.init();
         mPrinter.setPrinter(PrinterConstants.Command.ALIGN, 1);
-        mPrinter.setPrintModel(true,true,true,false);
+        mPrinter.setPrintModel(true, true, true, false);
         mPrinter.printText("\n\nMARIBAT");
         mPrinter.setPrinter(PrinterConstants.Command.PRINT_AND_WAKE_PAPER_BY_LINE, 2);//
     }
-    public static void printDate(PrinterInstance mPrinter,String date,String heure) {
+
+    public static void printDate(PrinterInstance mPrinter, String date, String heure) {
         mPrinter.init();
         mPrinter.setPrinter(PrinterConstants.Command.ALIGN, 1);
-        mPrinter.setPrintModel(false,false,false,false);
+        mPrinter.setPrintModel(false, false, false, false);
         mPrinter.printText("Parc Industriel  Sapino Nouaceur,Casablanca\n");
         mPrinter.printText("+212 522 014 036\n");
         mPrinter.printText("================================\n");
-        mPrinter.printText("Date : "+date+"\n");
-        mPrinter.printText("Heure : "+heure+"\n");
+        mPrinter.printText("Date : " + date + "\n");
+        mPrinter.printText("Heure : " + heure + "\n");
         mPrinter.printText("================================");
-       // mPrinter.setPrinter(PrinterConstants.Command.PRINT_AND_WAKE_PAPER_BY_LINE, 1);//
+        // mPrinter.setPrinter(PrinterConstants.Command.PRINT_AND_WAKE_PAPER_BY_LINE, 1);//
     }
+
     public static void printThanks(PrinterInstance mPrinter) {
         mPrinter.init();
         mPrinter.setPrinter(PrinterConstants.Command.ALIGN, 1);
-        mPrinter.setPrintModel(false,true,true,false);
+        mPrinter.setPrintModel(false, true, true, false);
         mPrinter.printText("Merci\n\n");
-         mPrinter.setPrinter(PrinterConstants.Command.PRINT_AND_WAKE_PAPER_BY_LINE, 3);//
+        mPrinter.setPrinter(PrinterConstants.Command.PRINT_AND_WAKE_PAPER_BY_LINE, 3);//
     }
-
 
 
 }

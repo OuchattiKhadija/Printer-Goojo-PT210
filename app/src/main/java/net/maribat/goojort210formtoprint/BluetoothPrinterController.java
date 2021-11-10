@@ -7,10 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -18,9 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.android.print.sdk.PrinterConstants;
 import com.android.print.sdk.PrinterInstance;
-import com.android.print.sdk.Table;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,13 +51,13 @@ public class BluetoothPrinterController {
     }
 
 
-    public void connectToPrt(){
+    public void connectToPrt() {
         List<String> pairedPrintersName = new ArrayList<>();
-        if ( getListOfPairedPrinters().size() == 1 ){
+        if (getListOfPairedPrinters().size() == 1) {
             mDevice = getListOfPairedPrinters().get(0);
             openPrinter();
-        }else{
-            for (BluetoothDevice device : getListOfPairedPrinters()){
+        } else {
+            for (BluetoothDevice device : getListOfPairedPrinters()) {
                 pairedPrintersName.add(device.getName()
                         + "\n" + device.getAddress());
             }
@@ -81,7 +77,7 @@ public class BluetoothPrinterController {
         alertDialog.setView(rowList);
 
         AlertDialog dialog = alertDialog.create();
-        listView.setOnItemClickListener( (adapterView, view, i, l) -> {
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
             String adresse = pairedPrinters.get(i).substring(pairedPrinters.get(i).length() - 17);
             Toast.makeText(mContext,
                     adresse,
@@ -123,14 +119,13 @@ public class BluetoothPrinterController {
 
     public PrinterInstance getPrinter() {
         if (mPrinter != null && mPrinter.isConnected()) {
-            if(!hasRegDisconnectReceiver){
+            if (!hasRegDisconnectReceiver) {
                 mContext.registerReceiver(myReceiver, filter);
                 hasRegDisconnectReceiver = true;
             }
         }
         return mPrinter;
     }
-
 
 
     // receive the state change of the bluetooth.
@@ -154,13 +149,11 @@ public class BluetoothPrinterController {
             mPrinter.closeConnection();
             mPrinter = null;
         }
-        if(hasRegDisconnectReceiver){
+        if (hasRegDisconnectReceiver) {
             mContext.unregisterReceiver(myReceiver);
             hasRegDisconnectReceiver = false;
         }
     }
-
-
 
 
 }
