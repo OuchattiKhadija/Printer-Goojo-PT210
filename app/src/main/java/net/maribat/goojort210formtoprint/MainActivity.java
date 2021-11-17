@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.print.sdk.Barcode;
 import com.android.print.sdk.PrinterConstants;
 import com.android.print.sdk.PrinterInstance;
 
@@ -27,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private Context mContext;
     BluetoothPrinterController bluetoothPrinterController;
 
-    Button print_btn, print_img;
-    EditText editText1, editText2;
+    Button print_btn, print_bar;
+    EditText editText1, editText2,editText3;
     Bitmap bitmap;
     String formattedDate, formattedTime;
     private static OutputStream outputStream;
@@ -38,11 +39,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         print_btn = findViewById(R.id.print_btn);
-        print_img = findViewById(R.id.print_img);
+        print_bar = findViewById(R.id.barcode_print_btn);
         mContext = this;
 
         editText1 = findViewById(R.id.edit_txt1);
         editText2 = findViewById(R.id.edit_txt2);
+        editText3 = findViewById(R.id.edit_txt3);
 
 
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             getCurrentDate();
             getCurrentTime();
 
-
+            String barCodeContent = editText3.getText().toString();
             String client_ed = editText1.getText().toString();
             String montant_ed = editText2.getText().toString();
             mPrinter.setPrintModel(false, false,
@@ -68,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
             printDate(mPrinter, formattedDate, formattedTime);
             printIputs(mPrinter, client_ed, montant_ed);
             printThanks(mPrinter);
+            printBarCode(mPrinter,barCodeContent);
+        });
+
+        print_bar.setOnClickListener(v ->{
+            printBarCode2(mPrinter,"9787976454655");
         });
 
 
@@ -182,9 +189,25 @@ public class MainActivity extends AppCompatActivity {
         mPrinter.init();
         mPrinter.setPrinter(PrinterConstants.Command.ALIGN, 1);
         mPrinter.setPrintModel(false, true, true, false);
-        mPrinter.printText("Merci\n\n");
-        mPrinter.setPrinter(PrinterConstants.Command.PRINT_AND_WAKE_PAPER_BY_LINE, 3);//
+        mPrinter.printText("Merci");
+        //mPrinter.setPrinter(PrinterConstants.Command.PRINT_AND_WAKE_PAPER_BY_LINE, 3);//
     }
 
+
+    public static void printBarCode(PrinterInstance mPrinter,String content){
+        mPrinter.init();
+        mPrinter.setPrinter(PrinterConstants.Command.ALIGN, 1);
+        mPrinter.setPrinter(1, 2);
+        mPrinter.printBarCode(new Barcode((byte) 4, 2, 120, 0, content));
+        mPrinter.setPrinter(1, 2);
+    }
+
+    public static void printBarCode2(PrinterInstance mPrinter,String content){
+        mPrinter.init();
+        mPrinter.setPrinter(PrinterConstants.Command.ALIGN, 1);
+        mPrinter.setPrinter(1, 2);
+        mPrinter.printBarCode(new Barcode((byte) 0, 2, 63, 2, content));
+        mPrinter.setPrinter(1, 2);
+    }
 
 }

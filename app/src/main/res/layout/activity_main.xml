@@ -9,7 +9,17 @@
     android:gravity="center"
     android:layout_margin="40dp">
 
-
+    <EditText
+        android:id="@+id/edit_txt3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:hint="@string/numbers"
+        android:singleLine="true"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        />
     <EditText
         android:id="@+id/edit_txt1"
         android:layout_width="match_parent"
@@ -18,7 +28,8 @@
         android:hint="Client"
         android:singleLine="true"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        />
 
     <EditText
         android:id="@+id/edit_txt2"
@@ -38,11 +49,13 @@
         android:layout_height="wrap_content"
         android:text="print"
         />
+
     <Button
-        android:id="@+id/print_img"
+        android:id="@+id/barcode_print_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="print"
+        android:text="print bar code"
+        android:visibility="invisible"
         />
 
 </LinearLayout>
